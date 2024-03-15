@@ -40,7 +40,7 @@ static const char usage_text[] =
     "    -w width    Width of the image to render.\n"
     "    -m margin   Margin in the image.\n"
     "    -s scale    Scale the font.\n"
-    "    -b 1        Specify 1 to get 1bpp Bitdepth of an Image By default it will                be 8.\n";
+    "    -b 1        Specify 1 to get 1bpp Bitdepth of an Image By default it will be 8.\n";
 
 /* Parse the command line options */
 
@@ -57,7 +57,7 @@ static bool parse_options(int argc, const char **argv, options_t *options)
     options->width = 200;
     options->margin = 5;
     options->scale = 1;
-    options->Bitdepth = 8;
+    options->bitdepth = 8;
 
     while (argv != end)
     {
@@ -138,11 +138,6 @@ static bool parse_options(int argc, const char **argv, options_t *options)
         return false;
     }
     
-    options->text = default_text;
-    
-    options->fontname = "DejaVuSans12";
-    options->fontname = "DejaVuSerif32";
-    options->fontname = "DejaVuSans";
     /* Round to a multiple of 4 pixels */
     if (options->width % 4 != 0)
         options->width += 4 - options->width % 4;
@@ -202,19 +197,13 @@ static void pixel_callback_1bpp(int16_t x, int16_t y, uint8_t count, uint8_t alp
     while (count--)
     {
         pos = (uint32_t)(y*(s->width/8)) + (x/8);
-        if(x % 8 == 0)
-        {
-            remainder = 0;
-        }
-        else
-        {
-            remainder = x%8;
-        }
-        
+        if(x % 8 == 0) remainder = 0;
+        else remainder = x%8;
         s->buffer[pos] = s->buffer[pos] & (~(1 << (remainder)));
         
         x++;
     }
+    
 }
 
 
@@ -308,7 +297,6 @@ int main(int argc, const char **argv)
     state.bitdepth = options.bitdepth;
 
     /* Initialize image to white */
-    
     memset(state.buffer, 0xFF, options.width * height);
     
     /* Render the text */
@@ -318,7 +306,6 @@ int main(int argc, const char **argv)
     /* Write out the bitmap */
     if(options.bitdepth == 1)
     {
-        convertBitEndianness(state.buffer, state.width * state.height);
         write_bmp_1bpp(options.filename, state.buffer, state.width, state.height);
     }
     else

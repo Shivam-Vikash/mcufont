@@ -60,7 +60,7 @@ void write_bmp(const char *filename, const uint8_t *data,
     fclose(f);
 }
 
-
+/* Converts the endianness of each byte in the given array. */
 void convertBitEndianness(unsigned char* array, uint32_t size)
 {
     uint32_t i;
@@ -77,6 +77,9 @@ void convertBitEndianness(unsigned char* array, uint32_t size)
 }
 
 void write_bmp_1bpp(const char *filename, const uint8_t *data, int width, int height) {
+    
+    convertBitEndianness((unsigned char*)data,width * height);
+    
     /* Open the BMP file for writing in binary mode */ 
     FILE *f = fopen(filename, "wb");
 
