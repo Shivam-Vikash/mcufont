@@ -98,6 +98,7 @@ Features and limitations
 - Uses libfreetype's high-quality hinting when importing .ttf fonts
 - Advanced kerning, justification and word wrapping algorithms
 - Fast decoding and high compression ratio
+- 1bpp image rendering
 
 *Limitations*
 
