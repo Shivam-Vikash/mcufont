@@ -1,3 +1,5 @@
+1 BPP IMPLEMENTED ON THIS VERSION
+
 =================
 MCUFont: Overview
 =================
